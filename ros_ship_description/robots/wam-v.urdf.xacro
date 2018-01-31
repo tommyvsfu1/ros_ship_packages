@@ -261,10 +261,10 @@
   <xacro:camera prefix="left"/>
   <xacro:camera prefix="rear"/>
 
-  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <!--xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
   <VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points">
     <origin xyz="0.8 0 0.3" rpy="0 0 0" />
-  </VLP-16>
+  </VLP-16-->
 
   <gazebo reference="scan">
     <material>Gazebo/Blue</material>

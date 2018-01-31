@@ -54,6 +54,7 @@ namespace driving_force_controller
   {
     if (isRunning())
     {
+
       twist_struct.ang_x = msg.angular.x;
       twist_struct.ang_y = msg.angular.y;
       twist_struct.ang_z = msg.angular.z;
@@ -156,10 +157,27 @@ namespace driving_force_controller
 
   void DrivingForceController::update(const ros::Time& time, const ros::Duration& period)
   {
+
     driving_force_struct = *(driving_force.readFromRT());
     twist_struct = *(twist.readFromRT());
     if(motor_command_publisher && motor_command_publisher->trylock())
     {
+      //std::cout << "Driving force update\n"; 
+      /*
+      if ( (twist_struct.lin_x >0 || twist_struct.lin_y > 0) ||  (twist_struct.lin_z > 0 || twist_struct.ang_x > 0) ||  (twist_struct.ang_y > 0 || twist_struct.ang_z > 0) ) {
+      std::cout << "twist\n";       
+      std::cout << "lin_x " << twist_struct.lin_x << std::endl;
+      std::cout << "lin_y " <<twist_struct.lin_y << std::endl;
+      std::cout << "lin_z " <<twist_struct.lin_z << std::endl;  
+      std::cout << "ang_x " <<twist_struct.ang_x << std::endl;
+      std::cout << "ang_y " <<twist_struct.ang_y << std::endl;
+      std::cout << "ang_z " <<twist_struct.ang_z << std::endl;            
+      }
+      if (driving_force_struct.value > 0 ) {
+        std::cout << "driving force value is\n";
+        std::cout << driving_force_struct.value << std::endl; 
+      }
+      */
       double target_rotational_speed = get_rotational_speed(driving_force_struct.value,twist_struct.lin_x);
       target_rotational_speed = boost::algorithm::clamp(target_rotational_speed,min_rotational_speed,max_rotational_speed);
       motor_command_publisher->msg_.data = target_rotational_speed;
